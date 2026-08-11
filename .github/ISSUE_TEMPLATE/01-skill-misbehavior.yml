@@ -1,0 +1,73 @@
+name: Skill misbehavior
+description: A skill ran but did the wrong thing — bad verdict, missed evidence, skipped gate, malformed output.
+labels: ["skill", "bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Paraphrase everything.** Never paste raw chat history or memory contents
+        into a public issue. If you cannot describe it without quoting private
+        content, open a private advisory instead.
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Skill
+      options:
+        - memory-gc
+        - rule-drift
+        - claim-audit
+        - ambiguity-preempt
+        - friction-audit
+        - praise-miner
+        - decision-ledger
+        - usage-retro
+        - skill-prospector
+        - handoff-distill
+        - /brainrot:runbook
+        - /brainrot:arbitrate
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Surface
+      options:
+        - claude.ai app (past-chats tools)
+        - Claude Code (plugin)
+        - Export mode (conversations.json)
+    validations:
+      required: true
+  - type: input
+    id: trigger
+    attributes:
+      label: Trigger
+      description: The exact phrase or command you used.
+      placeholder: "run praise miner"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened
+      description: Paraphrased output, or the output shape (headers, counts, verdicts) with content redacted.
+    validations:
+      required: true
+  - type: input
+    id: window
+    attributes:
+      label: Analysis window
+      placeholder: "30 days, ~40 chats"
+  - type: checkboxes
+    id: gates
+    attributes:
+      label: Gates
+      options:
+        - label: A write happened without an explicit before/after plan and my approval
+        - label: Sensitive content was surfaced, quoted, or turned into a rule
+        - label: An assistant suggestion was recorded as a decision or a standing rule

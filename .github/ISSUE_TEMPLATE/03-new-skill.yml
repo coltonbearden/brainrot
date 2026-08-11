@@ -1,0 +1,58 @@
+name: New skill proposal
+description: Propose a skill for the toolkit.
+labels: ["skill", "proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Skills here are built from a spec, not freehand. A proposal that answers
+        these questions can go straight into `docs/build-prompts/`.
+  - type: input
+    id: name
+    attributes:
+      label: Proposed name
+      description: kebab-case; it becomes the directory name.
+      placeholder: "context-budget"
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose
+      description: One paragraph. What does it read, and what does it output?
+    validations:
+      required: true
+  - type: input
+    id: triggers
+    attributes:
+      label: Trigger phrases
+      placeholder: "run context budget, where does my context go"
+    validations:
+      required: true
+  - type: dropdown
+    id: proposes_rules
+    attributes:
+      label: Does it propose standing rules?
+      options:
+        - "No — it reports only"
+        - "Yes — it feeds arbitration"
+    validations:
+      required: true
+  - type: input
+    id: prefix
+    attributes:
+      label: Record prefix (if it proposes rules)
+      description: How its records enter the arbitration pool.
+      placeholder: "CB-"
+  - type: textarea
+    id: overlap
+    attributes:
+      label: Overlap with existing skills
+      description: Which of the ten does this touch, and why isn't it an extension of one of them?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: What counts as evidence
+      description: The lexicon or signal it keys on, and how tiers map onto STRONG / PROVENANCE-WEAK / PROPOSED.

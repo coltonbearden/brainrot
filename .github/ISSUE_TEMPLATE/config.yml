@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security or privacy report
+    url: https://github.com/coltonbearden/brainrot/security/advisories/new
+    about: A skill that writes without hitting its gate, or any path that could leak history. Report privately, not here.
+  - name: Question or idea
+    url: https://github.com/coltonbearden/brainrot/discussions
+    about: Open-ended questions, workflow ideas, and "did I run this right?"

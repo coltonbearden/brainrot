@@ -1,0 +1,57 @@
+brainrot — ASCII mascot
+
+An original pixel creature: a cracked-open skull with spore-green brain shoots,
+mismatched eyes, a stitched mouth, and three uneven legs. Pure ASCII (no
+Unicode), so it renders identically in every terminal, CI log and SSH session.
+
+Render it in green:  ./scripts/banner.sh
+
+Vector versions: assets/mascot.svg, assets/mascot-mark.svg, assets/banner.svg
+
+
+--- full (32 x 15) ---
+
+          **    **
+        ******  ****
+    ########################
+    ############::::########
+    ##    ############  ####
+    ##    ############  ####
+############################
+################################
+    ############################
+    ##  ##  ##  ##  ########
+    ####::::################
+    ####    ####      ####
+    ####    ####      ####
+    ####              ####
+    ####
+
+
+--- compact (32 x 11) ---
+
+    ########################
+    ############::::########
+    ##    ############  ####
+    ##    ############  ####
+############################
+################################
+    ############################
+    ##  ##  ##  ##  ########
+    ####::::################
+    ####    ####      ####
+    ####    ####      ####
+
+
+--- inline ---
+
+  [## ## ] brainrot
+
+
+--- palette (xterm-256) ---
+
+  190  #c5f24a   spore green   brain shoots, the mark
+   40  #35d94f   live green    body
+   28  #1e9c39   rot green     edges, rot patches
+   22  #0d5a22   deep rot      shadow
+  232  #080b09   void          background, eyes, stitches

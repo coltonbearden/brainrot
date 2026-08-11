@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate plugin structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Structural + frontmatter invariants
+        run: python3 plugins/brainrot/scripts/validate.py
+
+      - name: Manifests are valid JSON
+        run: |
+          for f in .claude-plugin/marketplace.json plugins/brainrot/.claude-plugin/plugin.json; do
+            python3 -c "import json,sys; json.load(open(sys.argv[1])); print('ok', sys.argv[1])" "$f"
+          done
+
+      - name: Export script imports cleanly
+        run: python3 -m py_compile plugins/brainrot/scripts/cc_history_export.py
+
+  shell:
+    name: Shell scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: shellcheck
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
+          shellcheck scripts/*.sh plugins/brainrot/scripts/*.sh
+
+      - name: banner renders (color, plain, and small)
+        run: |
+          chmod +x scripts/banner.sh
+          ./scripts/banner.sh
+          ./scripts/banner.sh --small
+          NO_COLOR=1 ./scripts/banner.sh --plain
+          test -n "$(./scripts/banner.sh)" || { echo "banner produced no output"; exit 1; }
+
+      - name: claude.ai zips package correctly
+        run: |
+          sudo apt-get install -y -qq zip
+          bash plugins/brainrot/scripts/package_claude_ai_zips.sh
+          count=$(ls dist/*.zip 2>/dev/null | wc -l)
+          echo "packaged $count skill zips"
+          test "$count" -eq 10 || { echo "expected 10 zips, got $count"; exit 1; }
+
+  links:
+    name: Docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Referenced paths exist
+        run: |
+          fail=0
+          while read -r p; do
+            [ -e "$p" ] || { echo "missing: $p"; fail=1; }
+          done <<'EOF'
+          LICENSE
+          CONTRIBUTING.md
+          SECURITY.md
+          CHANGELOG.md
+          assets/banner.svg
+          assets/mascot.txt
+          assets/mascot.svg
+          assets/mascot-mark.svg
+          docs/index.html
+          docs/build-prompts
+          plugins/brainrot/docs/runbook.md
+          plugins/brainrot/docs/surfaces.md
+          plugins/brainrot/docs/arbitrate-prompt.md
+          plugins/brainrot/fixtures/example-cycle
+          EOF
+          exit $fail
