@@ -1,0 +1,39 @@
+name: Repo or tooling bug
+description: A script, manifest, validator, install path, or the site is broken.
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Install (/plugin marketplace add, /plugin install)
+        - validate.py / claude plugin validate
+        - cc_history_export.py
+        - package_claude_ai_zips.sh
+        - banner.sh
+        - Docs (README, runbook, surfaces, arbitrate-prompt)
+        - Site (docs/index.html)
+        - CI
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. …
+        2. …
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output
+      description: Full command and error, in a code block.
+      render: shell
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: "macOS 15.3, Claude Code 2.x, python 3.11"
