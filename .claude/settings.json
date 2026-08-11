@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(python3 plugins/brainrot/scripts/validate.py)",
+      "Bash(claude plugin validate *)",
+      "Bash(shellcheck *)",
+      "Bash(./scripts/banner.sh)",
+      "Bash(./scripts/banner.sh *)",
+      "Bash(bash plugins/brainrot/scripts/package_claude_ai_zips.sh)",
+      "Bash(python3 -m py_compile *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git ls-files *)",
+      "Bash(git rev-parse *)",
+      "Bash(git branch *)",
+      "Bash(git fetch *)",
+      "Bash(gh pr checks *)",
+      "Bash(gh pr view *)",
+      "Bash(gh run view *)",
+      "Bash(gh run watch *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(git checkout *)",
+      "Bash(git merge *)",
+      "Bash(gh pr create *)",
+      "Bash(gh pr merge *)",
+      "Bash(gh api *)",
+      "Bash(gh issue *)",
+      "Bash(gh release *)"
+    ],
+    "deny": [
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(git reset --hard *)",
+      "Bash(git tag -d *)",
+      "Bash(git rebase *)",
+      "Bash(gh release delete *)",
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(conversations*.json)",
+      "Read(*-export.json)",
+      "Edit(conversations*.json)",
+      "Edit(*-export.json)",
+      "Edit(/LICENSE)",
+      "Edit(/RESULTS.md)"
+    ]
+  }
+}

@@ -121,7 +121,7 @@ This toolkit reads your conversation history. That deserves a straight answer:
 
 - **Nothing leaves your session.** There is no telemetry, no network calls, no analytics, no external service. The skills are Markdown instructions; the scripts are local file operations.
 - **Read-only by default.** Every skill is read-only until you approve a written before/after plan. `memory-gc` states the expected end-state count, waits for explicit confirmation, then re-reads to verify what actually landed.
-- **Exports stay local.** `scripts/cc_history_export.py` writes `conversations.json` to your working directory. [`.gitignore`](.gitignore) excludes `conversations*.json` and `*-export.json` so an export is never committed by accident.
+- **Exports stay local.** `plugins/brainrot/scripts/cc_history_export.py` writes `conversations.json` to your working directory. [`.gitignore`](.gitignore) excludes `conversations*.json` and `*-export.json` so an export is never committed by accident.
 - **Sensitive content is skipped, counted, never quoted.** Every mining skill carries a `SKIPPED-SENSITIVE` convention. Health, grief, and crisis content is not surfaced, not summarized, and not turned into a rule.
 - **Provenance gates.** An assistant *suggestion* never becomes a "decision" or a standing rule without an explicit human commitment. Praise is evidence about what to repeat, not a record of a decision. Unverifiable claims go to you for a ruling instead of being silently rewritten.
 - **Budget honesty.** Arbitration fits rules to real headroom and tells you when there is none, rather than smuggling rules past the cap.
