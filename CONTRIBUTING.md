@@ -31,7 +31,7 @@ To test the plugin locally in Claude Code:
 ```bash
 claude plugin validate .                       # official schema
 python3 plugins/brainrot/scripts/validate.py   # structural invariants
-shellcheck plugins/brainrot/scripts/*.sh
+shellcheck scripts/*.sh plugins/brainrot/scripts/*.sh
 ```
 
 All three run in CI. The structural validator enforces:

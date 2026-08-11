@@ -5,3 +5,4 @@ __pycache__/
 conversations*.json
 *-export.json
 RESULTS.md
+.claude/settings.local.json

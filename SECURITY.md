@@ -15,7 +15,7 @@ about **data handling**, not remote exploitation.
 
 ## Handling your own exports
 
-`scripts/cc_history_export.py` produces a `conversations.json` containing your
+`plugins/brainrot/scripts/cc_history_export.py` produces a `conversations.json` containing your
 chat history in plaintext. Treat it like a password vault export:
 
 - Keep it local; do not commit it, upload it to a shared drive, or attach it to an issue.

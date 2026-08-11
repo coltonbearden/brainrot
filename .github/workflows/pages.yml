@@ -13,7 +13,9 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  # false, matching GitHub's Pages starter workflow: the github-pages environment
+  # serializes deploys itself, and cancelling one mid-flight can wedge that lock.
+  cancel-in-progress: false
 
 jobs:
   deploy:
