@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "brainrot",
+  "description": "Self-audit toolkit for Claude: mine your own chat history for corrections, ambiguity, drift, and wins; arbitrate the findings into a small evidence-gated rule set; keep persistent memory lean.",
+  "owner": {
+    "name": "coltonbearden",
+    "url": "https://github.com/coltonbearden"
+  },
+  "plugins": [
+    {
+      "name": "brainrot",
+      "source": "./plugins/brainrot",
+      "description": "Ten history-audit skills plus an arbitration pipeline: memory GC, rule-drift audit, friction/claim/ambiguity/praise mining, decision ledger, usage retro, skill prospecting, session handoffs.",
+      "author": {
+        "name": "coltonbearden"
+      },
+      "homepage": "https://github.com/coltonbearden/brainrot",
+      "repository": "https://github.com/coltonbearden/brainrot",
+      "license": "MIT",
+      "category": "productivity",
+      "keywords": [
+        "memory",
+        "audit",
+        "chat-history",
+        "hygiene",
+        "rules",
+        "retrospective",
+        "self-improvement"
+      ]
+    }
+  ]
+}

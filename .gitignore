@@ -1,0 +1,7 @@
+dist/
+__pycache__/
+*.pyc
+# never commit chat-history exports
+conversations*.json
+*-export.json
+RESULTS.md
