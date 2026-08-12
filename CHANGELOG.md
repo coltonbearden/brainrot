@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased
+
+- Project site: `docs/index.html`, a self-contained GitHub Pages page (zero
+  script tags, inlined mascot SVGs, data-URI favicon), deployed by
+  `.github/workflows/pages.yml`; pixel banner/mascot assets under `assets/`
+  and a terminal banner at `scripts/banner.sh` (repo root).
+- Governance: `CONTRIBUTING.md`, `SECURITY.md`, issue templates
+  (skill misbehavior / repo bug / new skill), and a PR template.
+- CI: `.github/workflows/validate.yml` — plugin structure, manifest JSON,
+  export-script `py_compile`, shellcheck, banner smoke, claude.ai zip
+  packaging, and referenced-path checks; README expanded to match.
+- Fixes on top of the facelift: Pages deploys no longer cancel in-flight
+  (`cancel-in-progress: false`); site honors `prefers-reduced-motion` and
+  drops contradictory/duplicate mascot ARIA labels; Open Graph + Twitter
+  card metadata added; repo scaffolding (`CLAUDE.md`, `.claude/settings.json`,
+  gitignore entry for `.claude/settings.local.json`); doc path corrections
+  in README / SECURITY / CONTRIBUTING.
+- Validation suite committed as `scripts/check.sh` (eight sections, one
+  command); CI's shell and docs jobs folded into it.
+
 ## 1.0.0 — 2026-08-11
 
 Initial public release.

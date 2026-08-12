@@ -22,6 +22,7 @@ plugins/brainrot/
 docs/build-prompts/               one build prompt per skill (provenance)
 docs/index.html                   the GitHub Pages site
 scripts/banner.sh                 terminal banner (repo root, NOT under plugins/)
+scripts/check.sh                  the check suite (runs every command below)
 assets/                           banner.svg, mascot.svg, mascot-mark.svg, mascot.txt
 ```
 
@@ -32,6 +33,7 @@ anywhere, it is stale and should be fixed.
 ## Commands
 
 ```bash
+bash scripts/check.sh                             # the one-liner: runs everything below
 claude plugin validate .                          # marketplace manifest
 claude plugin validate ./plugins/brainrot         # plugin manifest
 python3 plugins/brainrot/scripts/validate.py      # structural invariants -> "OK"
@@ -41,7 +43,7 @@ bash plugins/brainrot/scripts/package_claude_ai_zips.sh   # -> dist/, exactly 10
 rm -rf dist                                       # always clean up after packaging
 ```
 
-All of the above run in CI (`.github/workflows/validate.yml`, jobs: validate / shell / links).
+All of the above run in CI (`.github/workflows/validate.yml`, jobs: validate / check).
 Run them locally before opening a PR. `docs/**` changes additionally fire
 `.github/workflows/pages.yml`.
 
@@ -128,3 +130,5 @@ must stay in sync, and both must keep the veto gate.
   issues #1–3 are not to be modified. Never force-push, hard-reset, or delete tags.
 - Session reports and build prompts live **outside** the repo in `~/projects/` on
   purpose. Keep new ones there; they are provenance, not repo content.
+- Completed passes' reports and prompts move to `~/projects/brainrot-archive/<pass>/`;
+  the in-flight pass's files stay loose in `~/projects/` until the next pass consumes them.
