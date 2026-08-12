@@ -97,7 +97,10 @@ elif ! command -v zip >/dev/null 2>&1; then
 else
   bash plugins/brainrot/scripts/package_claude_ai_zips.sh >/dev/null
   zips="$(cd dist && shopt -s nullglob && for z in *.zip; do printf '%s\n' "${z%.zip}"; done | sort)"
-  skills="$(cd plugins/brainrot/skills && for d in */; do printf '%s\n' "${d%/}"; done | sort)"
+  # The command-style skills (arbitrate, runbook) are deliberately not packaged
+  # for claude.ai — their surface there is the paste-in prompt. Keep this filter
+  # in sync with COMMAND_SKILLS in package_claude_ai_zips.sh.
+  skills="$(cd plugins/brainrot/skills && for d in */; do printf '%s\n' "${d%/}"; done | grep -vx -e arbitrate -e runbook | sort)"
   if [[ "$zips" == "$skills" ]]; then
     report 5 "zip packaging" PASS
   else

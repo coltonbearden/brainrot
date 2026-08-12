@@ -1,4 +1,4 @@
-# Rule Arbitration Prompt (v2.1)
+# Rule Arbitration Prompt (v2.2)
 
 Phase 3 of a cleanup cycle. Runs **after** the five rule generators — `rule-drift`,
 `claim-audit`, `ambiguity-preempt`, `friction-audit`, `praise-miner` — and
@@ -10,7 +10,7 @@ Two ways to run it:
   fresh chat in the same scope as your rule set (outside any Project for global
   memory).
 - **Claude Code:** `/brainrot:arbitrate <cycle-dir>` reads the same inputs from
-  files and writes the output blocks as files. See `commands/arbitrate.md`.
+  files and writes the output blocks as files. See `skills/arbitrate/SKILL.md`.
 
 The "K-list" is your canonical numbered rules list (`K1…Kn`) — the standing rules
 you keep in persistent memory, numbered so verdicts and merges can reference lines.
@@ -274,8 +274,18 @@ disposition`, headed by each source's coverage line (`FULL`/`SAMPLED`), followed
 by one short block per unresolved conflict (the two texts, implication, support).
 Cluster membership and score components live here.
 
-**B. SELECTED** — formatted as `memory-gc` edit-plan rows so it pastes there
-without editing: `op (add/replace) | K-line (— for adds) | new text | reason
+**B. SELECTED** — two tables, each formatted as `memory-gc` edit-plan rows so
+they paste there without editing. `memory-gc` consumes this block (file mode:
+`selected.md`) alone; any baseline mention in HANDOFF is informational, not
+load-bearing.
+
+*Baseline edits (Step 0, unscored)* — the rule-drift verdicts applied to the
+K-list: `op (add/remove/replace) | K-line | new text (— for removes) | reason
+(REINFORCE / REWRITE / RETIRE-confirmed) | evidence (rule-drift report ref)`.
+A confirmed RETIRE is a `remove`. Always emit this table's header row, even
+when there are no baseline edits.
+
+*Scored clusters* — `op (add/replace) | K-line (— for adds) | new text | reason
 (CL-id · slug · score) | evidence (refs)`. A `MERGE-INTO-Kn` is a `replace` on
 `Kn` carrying the reworded line.
 
@@ -285,7 +295,10 @@ downloadable file when the environment allows; otherwise emit one fenced block.
 Either way it must paste cleanly into the next run's prior-backlog input.
 
 **D. REJECTED** — `id | rule | code(s)`, one line each, plus the suggested
-rewrite where `R-UNAUDITABLE` produced one. No elaboration.
+rewrite where `R-UNAUDITABLE` produced one. No elaboration. Always emit the
+header row; when nothing was rejected, follow it with the single italic line
+*(none — no record tripped a hard gate and no cluster scored below the backlog
+floor)*.
 
 **E. HANDOFF** — 7 lines max: counts per bucket; firm/contingent headroom
 result; unresolved-conflict and pending-retirement counts; non-memory follow-ups
@@ -299,15 +312,24 @@ Stop after the five blocks. Ask me to rule **by CL-id**: approve, amend, or veto
 each SELECTED row; resolve each conflict and pending retirement; fill or defer
 each `NEEDS-VALUE`. Nothing proceeds to `memory-gc` until I answer. If I veto a
 cluster, do not silently promote the next backlog item into its headroom — show
-me the vacancy and let me fill it. After my rulings, re-emit final **B** and
-**E** reflecting them; that final B, not the pre-veto version, is what feeds
-`memory-gc`.
+me the vacancy and let me fill it. After my rulings, re-emit final **B** (both
+tables, whole) and **E** reflecting them; that final B, not the pre-veto
+version, is what feeds `memory-gc`.
 
 ## PROMPT — copy to here
 
 ---
 
 ## Changelog
+
+**v2.1 → v2.2** — SELECTED split into two tables: unscored baseline edits from
+STEP 0 (op `add/remove/replace`, reason = rule-drift verdict), giving confirmed
+retirements a formal transport channel, and scored clusters (unchanged).
+`memory-gc` declared to consume SELECTED (`selected.md` in file mode) alone;
+HANDOFF's baseline mention demoted to informational. REJECTED's empty case
+defined (header row plus an italic none-line). Resolves the G5/G9 output-contract
+divergence observed in the v1.0.0 verification. Command form now lives at
+`skills/arbitrate/SKILL.md`.
 
 **v2 → v2.1** — added the `praise-miner` pool (`PM-` records; do-more rules score
 `C = 1`; a prevention rule and its do-more mirror cluster together); replaced the

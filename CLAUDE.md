@@ -1,7 +1,8 @@
 # brainrot
 
 A Claude Code **plugin marketplace** whose single plugin ships **ten self-audit skills**
-plus two commands. The skills mine the user's own Claude chat history for corrections,
+plus two commands (`/brainrot:runbook`, `/brainrot:arbitrate` — implemented as
+command-style skills since the plugin `commands/` directory went legacy). The skills mine the user's own Claude chat history for corrections,
 ambiguity, drift and wins, arbitrate the findings against a scarce memory budget, and
 land the survivors in one gated write.
 
@@ -13,8 +14,8 @@ Public repo: `coltonbearden/brainrot` · MIT · site at https://coltonbearden.gi
 .claude-plugin/marketplace.json   marketplace catalog (root manifest)
 plugins/brainrot/
   .claude-plugin/plugin.json      plugin manifest
-  commands/                       runbook.md, arbitrate.md
-  skills/<name>/SKILL.md          the ten skills
+  skills/<name>/SKILL.md          the ten audit skills, plus the runbook and
+                                  arbitrate command-style skills
   docs/                           runbook.md, surfaces.md, arbitrate-prompt.md
   scripts/                        cc_history_export.py, validate.py,
                                   package_claude_ai_zips.sh
@@ -51,14 +52,20 @@ Run them locally before opening a PR. `docs/**` changes additionally fire
 
 | Invariant | Rule |
 |---|---|
-| Frontmatter | exactly `name` + `description`, nothing else |
+| Frontmatter | must have `name` + `description`; may also have only `disable-model-invocation`, `allowed-tools`, `argument-hint` |
 | `name` | kebab-case, identical to the containing directory name |
-| `description` | ≤ 200 characters, and names its trigger phrases |
+| `description` | ≤ 200 characters, and (for the audit skills) names its trigger phrases |
 | Body | < 500 lines |
 
-Every skill body keeps this section order:
+Every **audit** skill body keeps this section order:
 **Purpose → Triggers → Preconditions → (lexicon/schema) → Workflow → Output template →
 Guardrails → Surfaces.**
+The two command-style skills (`runbook`, `arbitrate`) are procedural bodies and are
+exempt from that section order; `arbitrate` carries `disable-model-invocation: true`
+so it only ever fires on explicit `/brainrot:arbitrate` invocation. They are also
+deliberately excluded from claude.ai zip packaging (`COMMAND_SKILLS` in
+`package_claude_ai_zips.sh`, mirrored in `check.sh`) — the claude.ai surface for
+arbitration is the paste-in prompt.
 
 ## Safety posture (non-negotiable — this is the product)
 

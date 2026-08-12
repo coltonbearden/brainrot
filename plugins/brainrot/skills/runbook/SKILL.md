@@ -1,12 +1,13 @@
 ---
+name: runbook
 description: Show where you are in a brainrot cleanup cycle and the exact next step
 argument-hint: [cycle-dir]
 ---
 
 Guide the user through a brainrot cleanup cycle.
 
-First, locate this plugin's installed root (the directory that contains this
-command's parent `commands/` folder) and read `docs/runbook.md` there — it
+First, locate this plugin's installed root (the directory whose `skills/`
+folder contains this skill) and read `docs/runbook.md` there — it
 defines the six phases (0–5), the ordering rationale, and which skill runs in
 each phase.
 
@@ -27,4 +28,4 @@ If no cycle directory is given, propose creating one (a dated folder such as
 name Phase 0's first action.
 
 Keep the reply short: current phase, next action, at most one warning. Do not
-run any skill from here — this command orients; the user launches each phase.
+run any skill from here — this skill orients; the user launches each phase.

@@ -1,13 +1,15 @@
 ---
+name: arbitrate
 description: Arbitrate a cleanup cycle's rule proposals into a budget-fitted, evidence-gated selection for memory-gc (file mode)
 argument-hint: <cycle-dir>
+disable-model-invocation: true
 ---
 
 Run **rule arbitration** in file mode over the cycle directory given in
 `$ARGUMENTS`.
 
-First, locate this plugin's installed root (the directory that contains this
-command's parent `commands/` folder) and read `docs/arbitrate-prompt.md` there.
+First, locate this plugin's installed root (the directory whose `skills/`
+folder contains this skill) and read `docs/arbitrate-prompt.md` there.
 That file is the authoritative procedure — every step, gate, scoring rule, and
 output block defined between its "PROMPT — copy from here" and "copy to here"
 markers applies verbatim, with only the input/output substitutions below.
@@ -40,7 +42,7 @@ the next cycle's `backlog-prior.md`.
 **The veto gate is unchanged and interactive.** After writing the five files,
 stop and ask the user to rule by CL-id exactly as the procedure specifies.
 Nothing is final until they answer; after their rulings, rewrite `selected.md`
-and `handoff.md` to reflect them. This command never edits memory, `CLAUDE.md`,
+and `handoff.md` to reflect them. This skill never edits memory, `CLAUDE.md`,
 or any file outside the cycle directory — `memory-gc` performs the cycle's
 single write later, from the post-veto `selected.md`.
 
