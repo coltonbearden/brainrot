@@ -57,7 +57,7 @@ A skill that proposes standing rules must also declare how its proposals enter a
 
 ## Changing arbitration
 
-`docs/arbitrate-prompt.md` is versioned and has a changelog at the bottom. Any change to gates, scoring, or the pool format bumps the version and gets a changelog entry. Both front ends — the paste-in prompt and `/brainrot:arbitrate` — must stay in sync, and both must keep the veto gate.
+`plugins/brainrot/docs/arbitrate-prompt.md` is versioned and has a changelog at the bottom. Any change to gates, scoring, or the pool format bumps the version and gets a changelog entry. Both front ends — the paste-in prompt and `/brainrot:arbitrate` — must stay in sync, and both must keep the veto gate.
 
 If you change scoring or gates, walk the change through `plugins/brainrot/fixtures/example-cycle/` and say in the PR what the output looked like before and after.
 

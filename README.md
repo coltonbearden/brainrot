@@ -179,6 +179,18 @@ python3 plugins/brainrot/scripts/validate.py   # structural + frontmatter invari
 ./scripts/banner.sh                            # say hello to the mascot
 ```
 
+**Headless smoke** — exercise the full arbitration command non-interactively
+against the bundled fixture:
+
+```bash
+cp -r plugins/brainrot/fixtures/example-cycle /tmp/cycle
+claude -p --add-dir ~/.claude/plugins/cache/brainrot \
+  "/brainrot:arbitrate /tmp/cycle" --output-format json
+```
+
+`--add-dir` grants read access to the installed plugin so the command can load
+`docs/arbitrate-prompt.md` when running outside an interactive session.
+
 The structural validator enforces what the official schema doesn't: every `SKILL.md` carries exactly `name` + `description` frontmatter, `name` matches its directory and is kebab-case, descriptions stay under 200 characters, and bodies stay under 500 lines. Both run in CI on every push.
 
 Contributions welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). New skills should follow the build-prompt pattern in `docs/build-prompts/`.
