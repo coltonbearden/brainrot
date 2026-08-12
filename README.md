@@ -196,3 +196,7 @@ MIT — see [LICENSE](LICENSE).
 <sub>An independent, community-built plugin. Not affiliated with, endorsed by, or sponsored by Anthropic.<br>
 Claude and Claude Code are trademarks of Anthropic.</sub>
 </div>
+
+## Related projects
+
+- [carrel](https://github.com/FirstCastSolutions423/carrel) — A library desk for your files — and your agents. Local file toolkit + Claude Code plugin marketplace.

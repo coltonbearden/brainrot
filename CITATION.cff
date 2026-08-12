@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "brainrot"
+version: "1.0.0"
+date-released: "2026-08-11"
+authors:
+  - family-names: "Bearden"
+    given-names: "Colton"
+repository-code: "https://github.com/coltonbearden/brainrot"
+url: "https://github.com/coltonbearden/brainrot"
+license: "MIT"
+keywords:
+  - "claude"
+  - "claude-code"
+  - "claude-skills"
+  - "self-audit"
+  - "memory-management"
