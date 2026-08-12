@@ -9,14 +9,20 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  # Unlike pages.yml (a deploy, which must not be cancelled mid-flight), this
+  # is pure CI — superseded runs on the same ref are safe to cancel.
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     name: Validate plugin structure
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.11"
 
@@ -33,7 +39,7 @@ jobs:
     name: Check suite
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install tools
         run: sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck zip
