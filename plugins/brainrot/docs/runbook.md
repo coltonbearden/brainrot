@@ -67,8 +67,10 @@ per-cluster ruling.
 ## Phase 4 — Single write window
 
 **memory-gc**, once, with the ledger and the post-veto arbitrated selection as
-inputs. This is the only phase that mutates state. Running it first instead
-would force a re-run after every generator.
+inputs. `selected.md`'s two tables — baseline edits and scored clusters — map
+1:1 onto `memory-gc`'s edit-plan rows (`op add/remove/replace`). This is the
+only phase that mutates state. Running it first instead would force a re-run
+after every generator.
 
 ## Phase 5 — Forward-looking
 

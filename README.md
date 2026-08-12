@@ -76,7 +76,8 @@ That retired line is the whole point: it's the headroom the mining skills' propo
 
 ## What's inside
 
-One plugin, `brainrot` — ten skills and two commands.
+One plugin, `brainrot` — ten audit skills and two commands (the commands are
+implemented as skills; the plugin `commands/` directory is legacy).
 
 | Skill | What it does |
 |---|---|
@@ -157,9 +158,9 @@ No past-chats tools in your environment? Every skill also runs against a convers
 .claude-plugin/marketplace.json      marketplace catalog
 plugins/brainrot/                    the plugin
   .claude-plugin/plugin.json
-  commands/                          runbook, arbitrate
-  skills/<name>/SKILL.md             the ten skills
-  docs/                              runbook, surfaces, arbitrate-prompt (v2.1)
+  skills/<name>/SKILL.md             the ten audit skills, plus the
+                                     runbook + arbitrate command skills
+  docs/                              runbook, surfaces, arbitrate-prompt (v2.2)
   scripts/                           cc_history_export.py, validate.py,
                                      package_claude_ai_zips.sh
   fixtures/example-cycle/            worked arbitration input for testing

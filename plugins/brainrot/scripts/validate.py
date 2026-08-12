@@ -2,8 +2,9 @@
 """Structural validator for this marketplace. Run from anywhere; exits nonzero on failure.
 
 Checks: marketplace.json and plugin.json shape, plugin sources exist, every
-SKILL.md has exactly name+description frontmatter (name == dir, kebab-case,
-description <= 200 chars, body < 500 lines), command frontmatter parses.
+SKILL.md frontmatter has name+description (plus, optionally, only
+disable-model-invocation / allowed-tools / argument-hint), name == dir and
+kebab-case, description <= 200 chars, body < 500 lines.
 Complements `claude plugin validate .`, which checks the official schema.
 """
 import json, re, sys
@@ -67,8 +68,12 @@ for pdir in sorted((ROOT / "plugins").iterdir()):
         if fm is None:
             err(f"{rel}: unreadable frontmatter")
             continue
-        if set(fm) != {"name", "description"}:
-            err(f"{rel}: frontmatter keys must be exactly name+description, got {sorted(fm)}")
+        missing = {"name", "description"} - set(fm)
+        extra = set(fm) - {"name", "description", "disable-model-invocation", "allowed-tools", "argument-hint"}
+        if missing:
+            err(f"{rel}: frontmatter missing {sorted(missing)}")
+        if extra:
+            err(f"{rel}: unexpected frontmatter keys {sorted(extra)}")
         if fm.get("name") != sk.parent.name:
             err(f"{rel}: name != directory")
         if not re.fullmatch(r"[a-z0-9][a-z0-9-]*", fm.get("name", "")):
@@ -77,11 +82,6 @@ for pdir in sorted((ROOT / "plugins").iterdir()):
             err(f"{rel}: description > 200 chars")
         if len(lines) >= 500:
             err(f"{rel}: {len(lines)} lines (cap 500)")
-
-    for cmd in sorted((pdir / "commands").glob("*.md")):
-        fm, _ = frontmatter(cmd)
-        if fm is None or "description" not in fm:
-            err(f"{cmd.relative_to(ROOT)}: needs frontmatter with description")
 
 if errs:
     print("FAIL")

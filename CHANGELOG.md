@@ -2,6 +2,29 @@
 
 ## Unreleased
 
+- Arbitration pipeline v2.2: SELECTED becomes two tables — unscored baseline
+  edits from Step 0 (op `add/remove/replace`, reason = rule-drift verdict),
+  giving confirmed retirements a formal transport channel, plus the unchanged
+  scored-clusters table; `memory-gc` consumes `selected.md` alone; REJECTED's
+  empty case defined. Resolves the G5/G9 output-contract divergence from the
+  v1.0.0 verification.
+- The two commands migrated from the legacy `commands/` directory to
+  command-style skills (`skills/runbook/`, `skills/arbitrate/`); `arbitrate`
+  carries `disable-model-invocation: true` so it fires only on explicit
+  invocation. Invocation strings are unchanged. `validate.py`'s frontmatter
+  rule is now must-have `name`+`description` with an explicit optional-key
+  allow-list; claude.ai zip packaging deliberately excludes the two command
+  skills (still exactly ten zips).
+- Docs: README gains a headless fixture-smoke block (`--add-dir` to the plugin
+  cache); CONTRIBUTING names the full `plugins/brainrot/docs/arbitrate-prompt.md`
+  path.
+- CI: all workflow actions SHA-pinned with version comments; Pages actions on
+  their Node 24 majors (deprecation annotation cleared); validate.yml gains a
+  cancel-in-progress concurrency block.
+- Site accessibility: muted text raised to WCAG AA (`#5d6b61` → `#849588`,
+  ≥ 5.8:1 on every background), content wrapped in a `<main>` landmark, header
+  nav labeled, skip-to-content link added.
+
 - Project site: `docs/index.html`, a self-contained GitHub Pages page (zero
   script tags, inlined mascot SVGs, data-URI favicon), deployed by
   `.github/workflows/pages.yml`; pixel banner/mascot assets under `assets/`
