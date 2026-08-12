@@ -7,7 +7,12 @@ struct): no image library, no SVG renderer, and — deliberately — no system
 font. Every glyph comes from the 5x7 bitmap font embedded below, so the output
 is byte-identical on any machine with python3.
 
-Run from anywhere:  python3 scripts/make_og_card.py
+Run from anywhere:
+    python3 scripts/make_og_card.py            write docs/og-card.png
+    python3 scripts/make_og_card.py --check    verify it is still current
+
+--check re-renders in memory and compares decoded pixels against the committed
+file, so the card can never drift from this script. check.sh runs it.
 
 docs/og-card.png is the single documented exception to the repo's .png ban;
 see CLAUDE.md ("Never commit") and CONTRIBUTING.md ("Assets and the mascot").
@@ -17,7 +22,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "assets" / "mascot-mark.svg"
-OUT = ROOT / "docs" / "og-card.png"
+DEFAULT_OUT = ROOT / "docs" / "og-card.png"
 
 # The fixed palette (CONTRIBUTING.md, "Assets and the mascot") plus the three
 # greys the site already uses. No other colour appears on the card.
@@ -194,6 +199,60 @@ def chunk(tag, data):
     )
 
 
+def decode_png(path):
+    """Decode an 8-bit RGB PNG to a raw pixel buffer. Handles all five filter
+    types, so a card re-saved by another tool still compares by pixels rather
+    than by encoding."""
+    data = path.read_bytes()
+    if data[:8] != b"\x89PNG\r\n\x1a\n":
+        sys.exit(f"make_og_card.py: {path} is not a PNG")
+    pos, ihdr, idat = 8, None, bytearray()
+    while pos + 8 <= len(data):
+        n = int.from_bytes(data[pos : pos + 4], "big")
+        tag = data[pos + 4 : pos + 8]
+        if tag == b"IHDR":
+            ihdr = data[pos + 8 : pos + 8 + n]
+        elif tag == b"IDAT":
+            idat += data[pos + 8 : pos + 8 + n]
+        pos += 12 + n
+    if ihdr is None or not idat:
+        sys.exit(f"make_og_card.py: {path} has no IHDR/IDAT")
+    w, h, depth, ctype = struct.unpack(">IIBB", ihdr[:10])
+    if depth != 8 or ctype != 2:
+        sys.exit(f"make_og_card.py: {path} is not 8-bit RGB")
+
+    raw = zlib.decompress(bytes(idat))
+    stride, bpp = w * 3, 3
+    out, prev, pos = bytearray(), bytearray(stride), 0
+    for _ in range(h):
+        ft = raw[pos]
+        line = bytearray(raw[pos + 1 : pos + 1 + stride])
+        pos += 1 + stride
+        if ft == 1:
+            for i in range(bpp, stride):
+                line[i] = (line[i] + line[i - bpp]) & 0xFF
+        elif ft == 2:
+            for i in range(stride):
+                line[i] = (line[i] + prev[i]) & 0xFF
+        elif ft == 3:
+            for i in range(stride):
+                a = line[i - bpp] if i >= bpp else 0
+                line[i] = (line[i] + ((a + prev[i]) >> 1)) & 0xFF
+        elif ft == 4:
+            for i in range(stride):
+                a = line[i - bpp] if i >= bpp else 0
+                c = prev[i - bpp] if i >= bpp else 0
+                b = prev[i]
+                p = a + b - c
+                pa, pb, pc = abs(p - a), abs(p - b), abs(p - c)
+                line[i] = (line[i] + (a if pa <= pb and pa <= pc else b if pb <= pc else c)) & 0xFF
+        elif ft != 0:
+            sys.exit(f"make_og_card.py: {path} uses unknown filter {ft}")
+        out += line
+        prev = line
+    return (w, h), bytes(out)
+
+
 def write_png(path):
     raw = bytearray()
     for y in range(H):
@@ -211,7 +270,9 @@ def write_png(path):
 
 
 # ── the card ────────────────────────────────────────────────────────────────
-def main():
+def render():
+    """Draw the whole card into `canvas`. Returns what the caller wants to
+    report about the source art."""
     vw, vh, rects = load_mascot()
 
     PX, PY, PW, PH = 24, 24, 1152, 582  # panel
@@ -247,10 +308,42 @@ def main():
     y += GLYPH_H * 4 + 26
     text("10 skills . 2 commands", COL, y, 3, MUTED)
 
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    size = write_png(OUT)
-    print(f"OK {OUT.relative_to(ROOT)} {W}x{H} {size} bytes "
-          f"({len(rects)} mascot rects from {SRC.name}, viewBox {vw}x{vh})")
+    return f"{len(rects)} mascot rects from {SRC.name}, viewBox {vw}x{vh}"
+
+
+def main():
+    args = sys.argv[1:]
+    if args not in ([], ["--check"]):
+        sys.exit("usage: make_og_card.py [--check]")
+
+    source = render()
+    rel = DEFAULT_OUT.relative_to(ROOT)
+
+    if args == ["--check"]:
+        # Verify the committed card is still what this script draws, comparing
+        # decoded pixels — zlib's compressed bytes can differ between builds,
+        # the pixels cannot.
+        if not DEFAULT_OUT.exists():
+            sys.exit(f"make_og_card.py: {rel} does not exist")
+        (w, h), pixels = decode_png(DEFAULT_OUT)
+        if (w, h) != (W, H):
+            sys.exit(f"make_og_card.py: {rel} is {w}x{h}, expected {W}x{H}")
+        if pixels != bytes(canvas):
+            n = sum(
+                1 for i in range(0, len(pixels), 3)
+                if pixels[i : i + 3] != canvas[i : i + 3]
+            )
+            differ = "pixel differs" if n == 1 else "pixels differ"
+            sys.exit(
+                f"make_og_card.py: {rel} is stale — {n} {differ} from a fresh "
+                f"render. Regenerate it: python3 scripts/make_og_card.py"
+            )
+        print(f"OK {rel} matches a fresh render ({source})")
+        return
+
+    DEFAULT_OUT.parent.mkdir(parents=True, exist_ok=True)
+    size = write_png(DEFAULT_OUT)
+    print(f"OK {rel} {W}x{H} {size} bytes ({source})")
 
 
 if __name__ == "__main__":

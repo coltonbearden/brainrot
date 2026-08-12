@@ -98,9 +98,16 @@ python3 scripts/make_og_card.py
 That script reads the pixel grid straight out of `assets/mascot-mark.svg` and
 draws every character from a 5×7 bitmap font embedded in the script, so it
 needs no image library, no SVG renderer, and no system font — standard library
-only, and identical output on any machine. If you change the mascot, rerun it
-and commit the new card. `check.sh` derives the filename from the `og:image`
-tag and fails if the file is missing or is not 1200×630.
+only, and identical output on any machine.
+
+**If you change the mascot, rerun it and commit the new card.** You will not
+forget quietly: `check.sh` runs `python3 scripts/make_og_card.py --check`, which
+re-renders the card in memory and compares decoded pixels against the committed
+file, and fails with the number of differing pixels if they diverge. It compares
+pixels rather than file bytes, so a different zlib build cannot cause a false
+failure. The suite also derives the filename from the `og:image` tag — so a
+rename that orphans the old file cannot pass — and checks that the file exists
+and is 1200×630.
 
 ## Reporting bugs
 

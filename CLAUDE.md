@@ -43,6 +43,7 @@ python3 plugins/brainrot/scripts/validate.py      # structural invariants -> "OK
 shellcheck scripts/*.sh plugins/brainrot/scripts/*.sh
 ./scripts/banner.sh                               # also --small, and NO_COLOR=1 --plain
 python3 scripts/make_og_card.py                   # -> docs/og-card.png, 1200x630
+python3 scripts/make_og_card.py --check           # is the committed card current?
 bash plugins/brainrot/scripts/package_claude_ai_zips.sh   # -> dist/, exactly 10 zips
 rm -rf dist                                       # always clean up after packaging
 ```
@@ -114,7 +115,9 @@ One self-contained static file. Constraints:
   crawlers will not render an SVG link preview. `og:image` and `twitter:image`
   carry its **absolute** URL and `twitter:card` is `summary_large_image`;
   `check.sh` derives the filename from the `og:image` tag and fails if the file
-  is missing or is not 1200×630.
+  is missing, is not 1200×630, or has gone **stale** — it runs
+  `make_og_card.py --check`, which re-renders in memory and compares decoded
+  pixels. Change the mascot without regenerating the card and the suite fails.
 
 Note: `pages.yml` uploads all of `docs/`, so `docs/build-prompts/*.md` is published
 too. That is currently accepted, not accidental-but-unnoticed.
