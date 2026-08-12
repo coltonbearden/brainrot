@@ -14,6 +14,13 @@
   to the repo's `.png` ban, now named as such in `CLAUDE.md` and
   `CONTRIBUTING.md`; `check.sh` section 6 derives the filename from the
   `og:image` tag and fails if it is missing or not 1200×630. Closes #14.
+- The card can no longer go stale. `make_og_card.py` gains a `--check` mode
+  that re-renders in memory and compares decoded pixels against the committed
+  file, and `check.sh` section 6 runs it — so changing the mascot without
+  regenerating the card now fails the suite, reporting how many pixels differ.
+  The comparison decodes both sides (all five PNG filter types) rather than
+  diffing compressed bytes, so a different zlib build cannot cause a false
+  failure.
 
 ## 1.1.0 — 2026-08-12
 

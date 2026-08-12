@@ -167,6 +167,17 @@ PY
       else
         ok=0; detail "$card is not a readable PNG"
       fi
+      # ...and it must still be exactly what the generator draws, so the card
+      # cannot go stale when the mascot art changes. --check re-renders in
+      # memory and compares decoded pixels, never the compressed bytes: zlib's
+      # output can differ between builds, the pixels cannot.
+      gen=scripts/make_og_card.py
+      if [[ ! -f "$gen" ]]; then
+        ok=0; detail "$gen is missing — cannot verify $card is current"
+      elif ! drift="$(python3 "$gen" --check 2>&1)"; then
+        ok=0
+        while IFS= read -r line; do [[ -n "$line" ]] && detail "$line"; done <<< "$drift"
+      fi
     fi
   fi
   if command -v python3 >/dev/null 2>&1; then
