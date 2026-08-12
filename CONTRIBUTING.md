@@ -85,6 +85,23 @@ The project site is `docs/index.html`, served by GitHub Pages from `docs/`.
 It is a single self-contained file — edit it directly, keep it dependency-free,
 and keep its copy consistent with `README.md`.
 
+Site imagery is inline SVG or a data-URI, and the repo does not take `.png`
+files — with exactly one documented exception. `docs/og-card.png` is the
+1200×630 link-preview card behind the page's `og:image` and `twitter:image`;
+it has to be a raster because crawlers will not render an SVG preview. Do not
+edit it by hand and do not add a second `.png`. Regenerate it with:
+
+```bash
+python3 scripts/make_og_card.py
+```
+
+That script reads the pixel grid straight out of `assets/mascot-mark.svg` and
+draws every character from a 5×7 bitmap font embedded in the script, so it
+needs no image library, no SVG renderer, and no system font — standard library
+only, and identical output on any machine. If you change the mascot, rerun it
+and commit the new card. `check.sh` derives the filename from the `og:image`
+tag and fails if the file is missing or is not 1200×630.
+
 ## Reporting bugs
 
 Use the issue templates. For skill misbehavior, the useful report includes the surface (claude.ai app / Claude Code / export), the trigger phrase you used, what you expected, and what happened. **Paraphrase — never paste raw chat history or memory contents into a public issue.**

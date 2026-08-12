@@ -134,6 +134,41 @@ else
   if grep -qiE 'unpkg|react|support\.js|__bundler' "$site"; then
     ok=0; detail "found a banned token (unpkg/react/support.js/__bundler)"
   fi
+  # The og:image link-preview card — the sole .png exception (issue #14). The
+  # filename is derived from the meta tag, not hardcoded, so a rename that
+  # leaves the file behind cannot pass.
+  if ! grep -q '<meta name="twitter:card" content="summary_large_image">' "$site"; then
+    ok=0; detail "twitter:card must be summary_large_image (the card is 1.91:1)"
+  fi
+  card_url="$(grep -o '<meta property="og:image" content="[^"]*"' "$site" \
+              | sed 's/.*content="//; s/"$//')"
+  if [[ -z "$card_url" ]]; then
+    ok=0; detail "no og:image meta tag"
+  else
+    if [[ "$card_url" != https://coltonbearden.github.io/brainrot/* ]]; then
+      ok=0; detail "og:image must be an absolute site URL, got: $card_url"
+    fi
+    if ! grep -qF "<meta name=\"twitter:image\" content=\"$card_url\">" "$site"; then
+      ok=0; detail "twitter:image does not match og:image ($card_url)"
+    fi
+    card="docs/${card_url##*/}"
+    if [[ ! -f "$card" ]]; then
+      ok=0; detail "og:image points at $card_url but $card does not exist"
+    elif command -v python3 >/dev/null 2>&1; then
+      if dims="$(python3 - "$card" <<'PY'
+import struct, sys
+head = open(sys.argv[1], "rb").read(24)
+if head[:8] != b"\x89PNG\r\n\x1a\n" or head[12:16] != b"IHDR":
+    sys.exit("not a PNG")
+print("%dx%d" % struct.unpack(">II", head[16:24]))
+PY
+      )"; then
+        [[ "$dims" == "1200x630" ]] || { ok=0; detail "$card is $dims, must be 1200x630"; }
+      else
+        ok=0; detail "$card is not a readable PNG"
+      fi
+    fi
+  fi
   if command -v python3 >/dev/null 2>&1; then
     if ! parse_out="$(python3 - "$site" <<'PY'
 import sys
@@ -197,7 +232,9 @@ assets/mascot.txt
 assets/mascot.svg
 assets/mascot-mark.svg
 docs/index.html
+docs/og-card.png
 docs/build-prompts
+scripts/make_og_card.py
 plugins/brainrot/docs/runbook.md
 plugins/brainrot/docs/surfaces.md
 plugins/brainrot/docs/arbitrate-prompt.md

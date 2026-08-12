@@ -22,8 +22,10 @@ plugins/brainrot/
   fixtures/example-cycle/         worked input for a full dry run
 docs/build-prompts/               one build prompt per skill (provenance)
 docs/index.html                   the GitHub Pages site
+docs/og-card.png                  og:image link-preview card (the one .png)
 scripts/banner.sh                 terminal banner (repo root, NOT under plugins/)
 scripts/check.sh                  the check suite (runs every command below)
+scripts/make_og_card.py           regenerates docs/og-card.png (stdlib only)
 assets/                           banner.svg, mascot.svg, mascot-mark.svg, mascot.txt
 ```
 
@@ -40,6 +42,7 @@ claude plugin validate ./plugins/brainrot         # plugin manifest
 python3 plugins/brainrot/scripts/validate.py      # structural invariants -> "OK"
 shellcheck scripts/*.sh plugins/brainrot/scripts/*.sh
 ./scripts/banner.sh                               # also --small, and NO_COLOR=1 --plain
+python3 scripts/make_og_card.py                   # -> docs/og-card.png, 1200x630
 bash plugins/brainrot/scripts/package_claude_ai_zips.sh   # -> dist/, exactly 10 zips
 rm -rf dist                                       # always clean up after packaging
 ```
@@ -91,7 +94,10 @@ These are promises the README and the site make to users. Do not weaken them:
   directory holds **third-party copyrighted reference images** that must never enter
   this repo under any path. Also excluded from it: `*.dc.html`, `support.js`,
   `.thumbnail`, `github.md`.
-- Any `.png`. Site imagery is inline SVG or a data-URI.
+- Any `.png` **except `docs/og-card.png`** — the link-preview card, and the sole
+  documented exception (issue #14). Regenerate it with
+  `python3 scripts/make_og_card.py`; never add a second one. All other site
+  imagery stays inline SVG or a data-URI.
 
 ## The site (`docs/index.html`)
 
@@ -104,6 +110,11 @@ One self-contained static file. Constraints:
   the palette, and the `bob` keyframe.
 - Every `href="#..."` must have a matching `id` in the file.
 - Keep it under 120KB.
+- `docs/og-card.png` is the one asset the page references instead of inlining —
+  crawlers will not render an SVG link preview. `og:image` and `twitter:image`
+  carry its **absolute** URL and `twitter:card` is `summary_large_image`;
+  `check.sh` derives the filename from the `og:image` tag and fails if the file
+  is missing or is not 1200×630.
 
 Note: `pages.yml` uploads all of `docs/`, so `docs/build-prompts/*.md` is published
 too. That is currently accepted, not accidental-but-unnoticed.
