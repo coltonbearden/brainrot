@@ -6,3 +6,5 @@ conversations*.json
 *-export.json
 RESULTS.md
 .claude/settings.local.json
+# local home for the optional check.sh scrub-token list — the list never enters the repo
+.claude/scrub-tokens.txt
