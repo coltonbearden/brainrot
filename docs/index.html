@@ -23,6 +23,9 @@
   /* !important because the bob animation is set in an inline style attribute */
   @media (prefers-reduced-motion: reduce) { svg { animation: none !important; } }
   .scanlines { position: fixed; inset: 0; pointer-events: none; z-index: 50; background: repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px, rgba(0,0,0,0.22) 3px, rgba(0,0,0,0.22) 4px); mix-blend-mode: multiply; }
+  /* off-screen until keyboard focus; z-index above the scanlines (50) and sticky header (40) */
+  .skip-link { position: absolute; left: -9999px; top: 12px; z-index: 60; font-family: Silkscreen, monospace; font-size: 13px; color: #080b09; background: #35d94f; padding: 10px 16px; box-shadow: 4px 4px 0 #0d5a22; }
+  .skip-link:focus { left: 12px; }
   .btn-install { font-family: Silkscreen, monospace; font-size: 13px; color: #080b09; background: #35d94f; padding: 14px 22px; box-shadow: 5px 5px 0 #0d5a22; display: inline-block; }
   .btn-install:hover { background: #c5f24a; color: #080b09; text-decoration: none; box-shadow: 2px 2px 0 #0d5a22; transform: translate(3px,3px); }
   .btn-star { font-family: Silkscreen, monospace; font-size: 13px; color: #080b09; background: #35d94f; padding: 14px 22px; box-shadow: 5px 5px 0 #0d5a22; display: inline-block; }
@@ -41,6 +44,8 @@
 <body>
 <div style="background:#080b09;color:#e8ffe9;font-family:'JetBrains Mono',ui-monospace,monospace;min-height:100vh;position:relative;overflow-x:hidden">
 
+  <a class="skip-link" href="#main">skip to content</a>
+
   <div class="scanlines"></div>
 
   <header style="position:sticky;top:0;z-index:40;background:rgba(8,11,9,0.92);border-bottom:1px solid rgba(30,156,57,0.3);backdrop-filter:blur(6px)">
@@ -51,8 +56,8 @@
 <g shape-rendering="crispEdges"><rect x="44" y="4" width="8" height="8" fill="#c5f24a"></rect><rect x="68" y="4" width="8" height="8" fill="#c5f24a"></rect><rect x="36" y="12" width="8" height="8" fill="#c5f24a"></rect><rect x="44" y="12" width="8" height="8" fill="#c5f24a"></rect><rect x="52" y="12" width="8" height="8" fill="#c5f24a"></rect><rect x="68" y="12" width="8" height="8" fill="#c5f24a"></rect><rect x="76" y="12" width="8" height="8" fill="#c5f24a"></rect><rect x="20" y="20" width="8" height="8" fill="#35d94f"></rect><rect x="28" y="20" width="8" height="8" fill="#35d94f"></rect><rect x="36" y="20" width="8" height="8" fill="#35d94f"></rect><rect x="44" y="20" width="8" height="8" fill="#35d94f"></rect><rect x="52" y="20" width="8" height="8" fill="#35d94f"></rect><rect x="60" y="20" width="8" height="8" fill="#35d94f"></rect><rect x="68" y="20" width="8" height="8" fill="#35d94f"></rect><rect x="76" y="20" width="8" height="8" fill="#35d94f"></rect><rect x="84" y="20" width="8" height="8" fill="#35d94f"></rect><rect x="92" y="20" width="8" height="8" fill="#35d94f"></rect><rect x="100" y="20" width="8" height="8" fill="#35d94f"></rect><rect x="108" y="20" width="8" height="8" fill="#1e9c39"></rect><rect x="20" y="28" width="8" height="8" fill="#35d94f"></rect><rect x="28" y="28" width="8" height="8" fill="#1e9c39"></rect><rect x="36" y="28" width="8" height="8" fill="#1e9c39"></rect><rect x="44" y="28" width="8" height="8" fill="#35d94f"></rect><rect x="52" y="28" width="8" height="8" fill="#35d94f"></rect><rect x="60" y="28" width="8" height="8" fill="#35d94f"></rect><rect x="68" y="28" width="8" height="8" fill="#1e9c39"></rect><rect x="76" y="28" width="8" height="8" fill="#1e9c39"></rect><rect x="84" y="28" width="8" height="8" fill="#35d94f"></rect><rect x="92" y="28" width="8" height="8" fill="#1e9c39"></rect><rect x="100" y="28" width="8" height="8" fill="#35d94f"></rect><rect x="108" y="28" width="8" height="8" fill="#1e9c39"></rect><rect x="20" y="36" width="8" height="8" fill="#35d94f"></rect><rect x="28" y="36" width="8" height="8" fill="#080b09"></rect><rect x="36" y="36" width="8" height="8" fill="#080b09"></rect><rect x="44" y="36" width="8" height="8" fill="#35d94f"></rect><rect x="52" y="36" width="8" height="8" fill="#35d94f"></rect><rect x="60" y="36" width="8" height="8" fill="#35d94f"></rect><rect x="68" y="36" width="8" height="8" fill="#35d94f"></rect><rect x="76" y="36" width="8" height="8" fill="#35d94f"></rect><rect x="84" y="36" width="8" height="8" fill="#35d94f"></rect><rect x="92" y="36" width="8" height="8" fill="#080b09"></rect><rect x="100" y="36" width="8" height="8" fill="#35d94f"></rect><rect x="108" y="36" width="8" height="8" fill="#1e9c39"></rect><rect x="20" y="44" width="8" height="8" fill="#35d94f"></rect><rect x="28" y="44" width="8" height="8" fill="#080b09"></rect><rect x="36" y="44" width="8" height="8" fill="#080b09"></rect><rect x="44" y="44" width="8" height="8" fill="#35d94f"></rect><rect x="52" y="44" width="8" height="8" fill="#35d94f"></rect><rect x="60" y="44" width="8" height="8" fill="#35d94f"></rect><rect x="68" y="44" width="8" height="8" fill="#35d94f"></rect><rect x="76" y="44" width="8" height="8" fill="#35d94f"></rect><rect x="84" y="44" width="8" height="8" fill="#35d94f"></rect><rect x="92" y="44" width="8" height="8" fill="#080b09"></rect><rect x="100" y="44" width="8" height="8" fill="#35d94f"></rect><rect x="108" y="44" width="8" height="8" fill="#1e9c39"></rect><rect x="4" y="52" width="8" height="8" fill="#35d94f"></rect><rect x="12" y="52" width="8" height="8" fill="#35d94f"></rect><rect x="20" y="52" width="8" height="8" fill="#35d94f"></rect><rect x="28" y="52" width="8" height="8" fill="#35d94f"></rect><rect x="36" y="52" width="8" height="8" fill="#35d94f"></rect><rect x="44" y="52" width="8" height="8" fill="#35d94f"></rect><rect x="52" y="52" width="8" height="8" fill="#35d94f"></rect><rect x="60" y="52" width="8" height="8" fill="#35d94f"></rect><rect x="68" y="52" width="8" height="8" fill="#35d94f"></rect><rect x="76" y="52" width="8" height="8" fill="#35d94f"></rect><rect x="84" y="52" width="8" height="8" fill="#35d94f"></rect><rect x="92" y="52" width="8" height="8" fill="#35d94f"></rect><rect x="100" y="52" width="8" height="8" fill="#35d94f"></rect><rect x="108" y="52" width="8" height="8" fill="#1e9c39"></rect><rect x="4" y="60" width="8" height="8" fill="#1e9c39"></rect><rect x="12" y="60" width="8" height="8" fill="#1e9c39"></rect><rect x="20" y="60" width="8" height="8" fill="#35d94f"></rect><rect x="28" y="60" width="8" height="8" fill="#35d94f"></rect><rect x="36" y="60" width="8" height="8" fill="#35d94f"></rect><rect x="44" y="60" width="8" height="8" fill="#35d94f"></rect><rect x="52" y="60" width="8" height="8" fill="#35d94f"></rect><rect x="60" y="60" width="8" height="8" fill="#35d94f"></rect><rect x="68" y="60" width="8" height="8" fill="#35d94f"></rect><rect x="76" y="60" width="8" height="8" fill="#35d94f"></rect><rect x="84" y="60" width="8" height="8" fill="#35d94f"></rect><rect x="92" y="60" width="8" height="8" fill="#35d94f"></rect><rect x="100" y="60" width="8" height="8" fill="#35d94f"></rect><rect x="108" y="60" width="8" height="8" fill="#35d94f"></rect><rect x="116" y="60" width="8" height="8" fill="#35d94f"></rect><rect x="124" y="60" width="8" height="8" fill="#1e9c39"></rect><rect x="20" y="68" width="8" height="8" fill="#35d94f"></rect><rect x="28" y="68" width="8" height="8" fill="#1e9c39"></rect><rect x="36" y="68" width="8" height="8" fill="#35d94f"></rect><rect x="44" y="68" width="8" height="8" fill="#1e9c39"></rect><rect x="52" y="68" width="8" height="8" fill="#35d94f"></rect><rect x="60" y="68" width="8" height="8" fill="#1e9c39"></rect><rect x="68" y="68" width="8" height="8" fill="#35d94f"></rect><rect x="76" y="68" width="8" height="8" fill="#1e9c39"></rect><rect x="84" y="68" width="8" height="8" fill="#35d94f"></rect><rect x="92" y="68" width="8" height="8" fill="#35d94f"></rect><rect x="100" y="68" width="8" height="8" fill="#35d94f"></rect><rect x="108" y="68" width="8" height="8" fill="#35d94f"></rect><rect x="116" y="68" width="8" height="8" fill="#1e9c39"></rect><rect x="124" y="68" width="8" height="8" fill="#1e9c39"></rect><rect x="20" y="76" width="8" height="8" fill="#35d94f"></rect><rect x="28" y="76" width="8" height="8" fill="#080b09"></rect><rect x="36" y="76" width="8" height="8" fill="#35d94f"></rect><rect x="44" y="76" width="8" height="8" fill="#080b09"></rect><rect x="52" y="76" width="8" height="8" fill="#35d94f"></rect><rect x="60" y="76" width="8" height="8" fill="#080b09"></rect><rect x="68" y="76" width="8" height="8" fill="#35d94f"></rect><rect x="76" y="76" width="8" height="8" fill="#080b09"></rect><rect x="84" y="76" width="8" height="8" fill="#35d94f"></rect><rect x="92" y="76" width="8" height="8" fill="#35d94f"></rect><rect x="100" y="76" width="8" height="8" fill="#35d94f"></rect><rect x="108" y="76" width="8" height="8" fill="#1e9c39"></rect><rect x="20" y="84" width="8" height="8" fill="#35d94f"></rect><rect x="28" y="84" width="8" height="8" fill="#35d94f"></rect><rect x="36" y="84" width="8" height="8" fill="#1e9c39"></rect><rect x="44" y="84" width="8" height="8" fill="#1e9c39"></rect><rect x="52" y="84" width="8" height="8" fill="#35d94f"></rect><rect x="60" y="84" width="8" height="8" fill="#35d94f"></rect><rect x="68" y="84" width="8" height="8" fill="#1e9c39"></rect><rect x="76" y="84" width="8" height="8" fill="#1e9c39"></rect><rect x="84" y="84" width="8" height="8" fill="#1e9c39"></rect><rect x="92" y="84" width="8" height="8" fill="#35d94f"></rect><rect x="100" y="84" width="8" height="8" fill="#35d94f"></rect><rect x="108" y="84" width="8" height="8" fill="#1e9c39"></rect><rect x="20" y="92" width="8" height="8" fill="#35d94f"></rect><rect x="28" y="92" width="8" height="8" fill="#1e9c39"></rect><rect x="52" y="92" width="8" height="8" fill="#35d94f"></rect><rect x="60" y="92" width="8" height="8" fill="#1e9c39"></rect><rect x="92" y="92" width="8" height="8" fill="#35d94f"></rect><rect x="100" y="92" width="8" height="8" fill="#1e9c39"></rect><rect x="20" y="100" width="8" height="8" fill="#35d94f"></rect><rect x="28" y="100" width="8" height="8" fill="#1e9c39"></rect><rect x="52" y="100" width="8" height="8" fill="#1e9c39"></rect><rect x="60" y="100" width="8" height="8" fill="#1e9c39"></rect><rect x="92" y="100" width="8" height="8" fill="#35d94f"></rect><rect x="100" y="100" width="8" height="8" fill="#1e9c39"></rect><rect x="20" y="108" width="8" height="8" fill="#35d94f"></rect><rect x="28" y="108" width="8" height="8" fill="#1e9c39"></rect><rect x="92" y="108" width="8" height="8" fill="#1e9c39"></rect><rect x="100" y="108" width="8" height="8" fill="#1e9c39"></rect><rect x="20" y="116" width="8" height="8" fill="#1e9c39"></rect><rect x="28" y="116" width="8" height="8" fill="#1e9c39"></rect></g>
 </svg>
       <span style="font-family:Silkscreen,monospace;font-size:19px;letter-spacing:0.5px">brainrot</span>
-      <span style="font-size:11px;color:#5d6b61;border:1px solid #24382a;padding:3px 7px">v2</span>
-      <nav style="margin-left:auto;display:flex;gap:26px;font-size:12.5px;color:#8fa094">
+      <span style="font-size:11px;color:#849588;border:1px solid #24382a;padding:3px 7px">v2</span>
+      <nav aria-label="primary" style="margin-left:auto;display:flex;gap:26px;font-size:12.5px;color:#8fa094">
         <a href="#skills" style="color:#8fa094">skills</a>
         <a href="#cycle" style="color:#8fa094">cycle</a>
         <a href="#privacy" style="color:#8fa094">privacy</a>
@@ -61,6 +66,8 @@
       </nav>
     </div>
   </header>
+
+  <main id="main">
 
   <section class="grid-collapse" style="max-width:1120px;margin:0 auto;padding:84px 32px 72px;display:grid;grid-template-columns:1.15fr 0.85fr;gap:56px;align-items:center">
     <div>
@@ -77,12 +84,12 @@
           <span style="width:9px;height:9px;background:#333b34;display:block"></span>
           <span style="width:9px;height:9px;background:#333b34;display:block"></span>
           <span style="width:9px;height:9px;background:#333b34;display:block"></span>
-          <span style="font-size:11px;color:#5d6b61;margin-left:8px">claude code</span>
+          <span style="font-size:11px;color:#849588;margin-left:8px">claude code</span>
         </div>
-        <pre style="margin:0;padding:16px 18px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9;color:#e8ffe9;overflow-x:auto"><span style="color:#5d6b61">$ </span>/plugin marketplace add coltonbearden/brainrot
-<span style="color:#5d6b61">$ </span>/plugin install brainrot@brainrot</pre>
+        <pre style="margin:0;padding:16px 18px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9;color:#e8ffe9;overflow-x:auto"><span style="color:#849588">$ </span>/plugin marketplace add coltonbearden/brainrot
+<span style="color:#849588">$ </span>/plugin install brainrot@brainrot</pre>
       </div>
-      <p style="font-size:12px;color:#5d6b61;margin:14px 0 0">Or upload per-skill zips to the claude.ai app — see <a href="#surfaces">surfaces</a>.</p>
+      <p style="font-size:12px;color:#849588;margin:14px 0 0">Or upload per-skill zips to the claude.ai app — see <a href="#surfaces">surfaces</a>.</p>
     </div>
     <div style="display:flex;justify-content:center;align-items:center;border:2px solid #1a2a1e;background:radial-gradient(circle at 50% 45%, #12211a 0%, #080b09 72%);padding:40px;box-shadow:6px 6px 0 #0d5a22;min-height:420px">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 408 384" aria-hidden="true" style="width:100%;max-width:280px;height:auto;aspect-ratio:408/384;image-rendering:pixelated;animation:bob 4.5s ease-in-out infinite">
@@ -104,10 +111,10 @@
           <p style="font-size:15px;line-height:1.8;color:#8fa094;margin:0;text-wrap:pretty">Meanwhile every correction you've ever typed — every "no, the other repo", every "you made that up", every "stop giving me fragments" — is sitting in your history as unexamined evidence.</p>
         </div>
         <div style="border:2px solid #1a2a1e;background:#101512;padding:24px;box-shadow:5px 5px 0 #0d5a22">
-          <pre style="margin:0;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:2;color:#35d94f;overflow-x:auto">mine history   <span style="color:#5d6b61">-></span>  audit rules
+          <pre style="margin:0;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:2;color:#35d94f;overflow-x:auto">mine history   <span style="color:#849588">-></span>  audit rules
      |                    |
      v                    v
- arbitrate      <span style="color:#5d6b61">-></span>  ONE gated write
+ arbitrate      <span style="color:#849588">-></span>  ONE gated write
  (budget)            (memory-gc)</pre>
           <p style="font-size:12.5px;line-height:1.7;color:#8fa094;margin:20px 0 0">Candidate rules compete for scarce memory lines. It writes once, with your approval.</p>
         </div>
@@ -208,7 +215,7 @@
           <span style="font-size:12.5px;line-height:1.7;color:#8fa094">Seeds from post-GC memory, so it doesn't mine retired entries.</span>
         </div>
       </div>
-      <p style="font-size:12.5px;line-height:1.8;color:#5d6b61;margin:26px 0 0;max-width:80ch">Don't attempt all ten in one thread — the mining skills are read-heavy and you'll run out of context mid-audit. Split at roughly Phase 1 / Phase 3 / Phase 5 and run <code style="color:#8fa094">handoff-distill</code> at each boundary.</p>
+      <p style="font-size:12.5px;line-height:1.8;color:#849588;margin:26px 0 0;max-width:80ch">Don't attempt all ten in one thread — the mining skills are read-heavy and you'll run out of context mid-audit. Split at roughly Phase 1 / Phase 3 / Phase 5 and run <code style="color:#8fa094">handoff-distill</code> at each boundary.</p>
     </div>
   </section>
 
@@ -225,7 +232,7 @@
           <span style="width:9px;height:9px;background:#333b34;display:block"></span>
           <span style="width:9px;height:9px;background:#333b34;display:block"></span>
           <span style="width:9px;height:9px;background:#333b34;display:block"></span>
-          <span style="font-size:11px;color:#5d6b61;margin-left:8px">run rule drift</span>
+          <span style="font-size:11px;color:#849588;margin-left:8px">run rule drift</span>
         </div>
         <pre style="margin:0;padding:22px;font-size:12.5px;line-height:1.85;color:#c9d6cd;overflow-x:auto">Rule drift audit — 2026-08-01
 Window: 2026-07-02 -> 2026-08-01 · Coverage: <span style="color:#35d94f">FULL (41 chats)</span>
@@ -302,7 +309,7 @@ Window: 2026-07-02 -> 2026-08-01 · Coverage: <span style="color:#35d94f">FULL (
             <tr>
               <td style="padding:13px 18px;color:#c9d6cd;border-bottom:1px solid #141d16">History sweeps</td>
               <td style="padding:13px 18px;color:#35d94f;border-bottom:1px solid #141d16">native</td>
-              <td style="padding:13px 18px;color:#5d6b61;border-bottom:1px solid #141d16">—</td>
+              <td style="padding:13px 18px;color:#849588;border-bottom:1px solid #141d16">—</td>
               <td style="padding:13px 18px;color:#8fa094;border-bottom:1px solid #141d16">via export pass</td>
             </tr>
             <tr>
@@ -319,9 +326,9 @@ Window: 2026-07-02 -> 2026-08-01 · Coverage: <span style="color:#35d94f">FULL (
             </tr>
             <tr>
               <td style="padding:13px 18px;color:#c9d6cd">/brainrot:* commands</td>
-              <td style="padding:13px 18px;color:#5d6b61">— (paste-in prompt)</td>
+              <td style="padding:13px 18px;color:#849588">— (paste-in prompt)</td>
               <td style="padding:13px 18px;color:#35d94f">native</td>
-              <td style="padding:13px 18px;color:#5d6b61">—</td>
+              <td style="padding:13px 18px;color:#849588">—</td>
             </tr>
           </tbody>
         </table>
@@ -406,8 +413,10 @@ Window: 2026-07-02 -> 2026-08-01 · Coverage: <span style="color:#35d94f">FULL (
     </div>
   </section>
 
+  </main>
+
   <footer style="border-top:1px solid rgba(30,156,57,0.25);background:#0b0f0c">
-    <div style="max-width:1120px;margin:0 auto;padding:34px 32px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:11.5px;color:#5d6b61">
+    <div style="max-width:1120px;margin:0 auto;padding:34px 32px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:11.5px;color:#849588">
       <span>MIT licensed · brainrot</span>
       <span style="max-width:62ch;text-align:right;line-height:1.7">An independent, community-built plugin. Not affiliated with, endorsed by, or sponsored by Anthropic. Claude and Claude Code are trademarks of Anthropic.</span>
     </div>
