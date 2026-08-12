@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.1.0 — 2026-08-12
 
 - Arbitration pipeline v2.2: SELECTED becomes two tables — unscored baseline
   edits from Step 0 (op `add/remove/replace`, reason = rule-drift verdict),

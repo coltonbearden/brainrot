@@ -1,6 +1,6 @@
 {
   "name": "brainrot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Self-audit toolkit: mine your Claude history for corrections and wins, arbitrate findings into a lean evidence-gated rule set, and keep persistent memory tidy.",
   "author": {
     "name": "coltonbearden",
