@@ -1,0 +1,13 @@
+# .github/dependabot.yml — github-actions ecosystem (G1 item 9, OPP-003).
+# Primary ecosystems (npm, pip, ...) are the optional part of OPP-003.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci
